@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desmontando la Estafa Vaper 💨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Nunito:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-magenta: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-green: #39ff14;
+            --neon-red: #ff003c;
+            --neon-yellow: #ffff00;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #070707;
+            color: #ffffff;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 255, 255, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 0, 255, 0.05), transparent 25%),
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+        }
+        h1, h2, h3, h4, .font-neon { font-family: 'Orbitron', sans-serif; }
+        .font-tech { font-family: 'Share Tech Mono', monospace; }
+        
+        /* Neon Effects */
+        .neon-text-magenta { text-shadow: 0 0 10px var(--neon-magenta), 0 0 20px var(--neon-magenta); }
+        .neon-text-cyan { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan); }
+        .neon-text-green { text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green); }
+        .neon-text-red { text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red); }
+        
+        .neon-border-magenta { box-shadow: 0 0 10px var(--neon-magenta), inset 0 0 10px var(--neon-magenta); border: 1px solid var(--neon-magenta); }
+        .neon-border-cyan { box-shadow: 0 0 10px var(--neon-cyan), inset 0 0 10px var(--neon-cyan); border: 1px solid var(--neon-cyan); }
+
+        /* Interactive Flip Card */
+        .flip-card { background-color: transparent; width: 100%; height: 420px; perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 1rem; }
+        .flip-card-front { background: #111; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #333; transition: border 0.3s; }
+        .flip-card-front:hover { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0,255,255,0.3); }
+        .flip-card-back { background: #0a0a0a; border: 2px solid var(--neon-red); box-shadow: inset 0 0 20px rgba(255,0,0,0.2); transform: rotateY(180deg); padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+
+        /* Scanner Animation */
+        @keyframes scan-line { 0% { top: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        .scanner-line { position: absolute; width: 100%; height: 3px; background: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); top: 0; left: 0; z-index: 50; animation: scan-line 2.5s infinite linear; display: none; }
+        .flip-card:hover .scanner-line { display: block; }
+
+        /* Roulette Wheel */
+        .roulette-container { position: relative; width: 320px; height: 320px; margin: 0 auto; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--neon-cyan); box-shadow: 0 0 30px var(--neon-cyan); background: #111; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); position: relative; overflow: hidden; }
+        .wheel::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; background: #050505; border-radius: 50%; border: 3px solid var(--neon-cyan); z-index: 10; }
+        .pointer { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 25px solid transparent; border-right: 25px solid transparent; border-top: 40px solid var(--neon-magenta); z-index: 20; filter: drop-shadow(0 0 10px var(--neon-magenta)); }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 5px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- Header -->
+    <header class="text-center py-16 relative border-b border-gray-800">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-magenta-500 to-lime-500 shadow-[0_0_15px_#00ffff]"></div>
+        <h1 class="text-5xl md:text-7xl font-black neon-text-cyan tracking-wider uppercase drop-shadow-2xl">LABORATORIO DE</h1>
+        <h2 class="text-4xl md:text-6xl font-black neon-text-magenta mt-2 tracking-widest uppercase">DESENCRIPTACIÓN</h2>
+        <div class="mt-8 inline-block text-lg text-cyan-300 font-tech max-w-3xl mx-auto px-6 py-4 bg-black/80 border border-cyan-500/50 rounded shadow-[0_0_15px_rgba(0,255,255,0.1)] text-left">
+            <p class="text-gray-400">> OBJETIVO:</p>
+            <p class="text-white mt-1">Analizar las tácticas de la industria tabacalera.</p>
+            <p class="text-gray-400 mt-3">> ESTADO DEL SISTEMA:</p>
+            <p class="text-lime-400 font-bold mt-1 animate-pulse">LISTO PARA ESCANEAR LA VERDAD.</p>
+        </div>
+    </header>
+
+    <!-- FASE 1: ESCÁNER DE VAPERS (Las imágenes hechas en código) -->
+    <section class="max-w-6xl mx-auto px-4 py-20">
+        <div class="text-center mb-12">
+            <div class="inline-block bg-cyan-900/30 border border-cyan-500 text-cyan-400 font-tech px-3 py-1 rounded-sm w-max mb-4">EXPEDIENTE #001: EL CABALLO DE TROYA</div>
+            <h3 class="text-4xl font-neon text-white mb-4 uppercase">Escáner de Sabores</h3>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto">Te los venden como inofensivos "USB" con sabor a chucherías. <strong class="text-cyan-400">Haz clic en cada dispositivo para pasarle el escáner de Rayos X y ver lo que realmente te estás metiendo.</strong></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Vaper 1: Sandía -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <!-- Frente (Engaño) -->
+                    <div class="flip-card-front overflow-hidden">
+                        <div class="scanner-line"></div>
+                        <span class="absolute top-4 left-4 bg-gray-800 text-pink-400 font-tech px-2 py-1 text-xs rounded border border-gray-700">TOCA PARA ESCANEAR</span>
+                        
+                        <!-- Vaper SVG (Sandía) -->
+                        <svg viewBox="0 0 100 300" class="w-24 mt-8 drop-shadow-[0_0_20px_rgba(255,0,127,0.4)]">
+                            <defs>
+                                <linearGradient id="grad-pink" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#ff4d94;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#b30047;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="25" y="60" width="50" height="200" rx="15" fill="url(#grad-pink)" stroke="#ffb3d9" stroke-width="2"/>
+                            <!-- Boquilla -->
+                            <path d="M 35 60 L 35 25 Q 50 15 65 25 L 65 60 Z" fill="#222" />
+                            <!-- Detalles -->
+                            <rect x="40" y="100" width="20" height="60" rx="5" fill="#fff" opacity="0.1"/>
+                            <circle cx="50" cy="230" r="4" fill="#fff" opacity="0.8"/>
+                        </svg>
+                        
+                        <h4 class="mt-6 text-2xl font-black text-pink-500 uppercase">Watermelon Ice</h4>
+                        <p class="text-gray-400 text-sm mt-2">"Súper refrescante y dulce 🍉"</p>
+                    </div>
+                    <!-- Reverso (Realidad) -->
+                    <div class="flip-card-back">
+                        <div class="text-4xl mb-4">☣️</div>
+                        <h4 class="text-xl font-bold text-red-500 mb-4 font-tech border-b border-red-500/30 pb-2">ANÁLISIS QUÍMICO</h4>
+                        <ul class="text-left text-gray-300 space-y-3 text-sm">
+                            <li><strong class="text-white">Nicotina Hiperconcentrada:</strong> Diseñada en sales para golpear tu cerebro en segundos sin raspar la garganta. Adicción instantánea.</li>
+                            <li><strong class="text-white">Metales Pesados:</strong> <span class="text-red-400">Plomo y Níquel.</span> La resistencia barata se deshace con el calor y la inhalas microscópicamente.</li>
+                            <li><strong class="text-white">Glicerina:</strong> Se adhiere a tus dientes, alterando la microbiota y provocando caries agresivas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vaper 2: Mango -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front overflow-hidden">
+                        <div class="scanner-line"></div>
+                        <span class="absolute top-4 left-4 bg-gray-800 text-yellow-400 font-tech px-2 py-1 text-xs rounded border border-gray-700">TOCA PARA ESCANEAR</span>
+                        
+                        <!-- Vaper SVG (Mango) -->
+                        <svg viewBox="0 0 100 300" class="w-24 mt-8 drop-shadow-[0_0_20px_rgba(255,204,0,0.4)]">
+                            <defs>
+                                <linearGradient id="grad-yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#ffcc00;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#ff6600;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="25" y="60" width="50" height="200" rx="15" fill="url(#grad-yellow)" stroke="#ffe680" stroke-width="2"/>
+                            <!-- Boquilla -->
+                            <path d="M 35 60 L 35 25 Q 50 15 65 25 L 65 60 Z" fill="#222" />
+                            <!-- Detalles -->
+                            <rect x="40" y="100" width="20" height="60" rx="5" fill="#fff" opacity="0.1"/>
+                            <circle cx="50" cy="230" r="4" fill="#fff" opacity="0.8"/>
+                        </svg>
+
+                        <h4 class="mt-6 text-2xl font-black text-yellow-500 uppercase">Mango Blast</h4>
+                        <p class="text-gray-400 text-sm mt-2">"Toque tropical inofensivo 🥭"</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="text-4xl mb-4">🩻</div>
+                        <h4 class="text-xl font-bold text-red-500 mb-4 font-tech border-b border-red-500/30 pb-2">IMPACTO EN ÓRGANOS</h4>
+                        <ul class="text-left text-gray-300 space-y-3 text-sm">
+                            <li><strong class="text-white">Alvéolos Encharcados:</strong> Tu cuerpo detecta el vapor químico como invasor, inflama los pulmones y produce moco masivo para defenderse.</li>
+                            <li><strong class="text-white">Propilenglicol:</strong> Deshidrata la boca severamente, secando las encías y causando <span class="text-red-400">halitosis (mal aliento crónico)</span>.</li>
+                            <li><strong class="text-white">Falsa Relajación:</strong> Sientes que te quita la ansiedad, pero es el aparato el que te acaba de causar esa ansiedad.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vaper 3: Menta -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front overflow-hidden">
+                        <div class="scanner-line"></div>
+                        <span class="absolute top-4 left-4 bg-gray-800 text-lime-400 font-tech px-2 py-1 text-xs rounded border border-gray-700">TOCA PARA ESCANEAR</span>
+                        
+                        <!-- Vaper SVG (Mint) -->
+                        <svg viewBox="0 0 100 300" class="w-24 mt-8 drop-shadow-[0_0_20px_rgba(57,255,20,0.4)]">
+                            <defs>
+                                <linearGradient id="grad-green" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#39ff14;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#008000;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="25" y="60" width="50" height="200" rx="15" fill="url(#grad-green)" stroke="#b3ffb3" stroke-width="2"/>
+                            <!-- Boquilla -->
+                            <path d="M 35 60 L 35 25 Q 50 15 65 25 L 65 60 Z" fill="#222" />
+                            <!-- Detalles -->
+                            <rect x="40" y="100" width="20" height="60" rx="5" fill="#fff" opacity="0.1"/>
+                            <circle cx="50" cy="230" r="4" fill="#fff" opacity="0.8"/>
+                        </svg>
+
+                        <h4 class="mt-6 text-2xl font-black text-lime-400 uppercase">Cool Mint</h4>
+                        <p class="text-gray-400 text-sm mt-2">"Solo hielo y frescor 🧊"</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="text-4xl mb-4">💥</div>
+                        <h4 class="text-xl font-bold text-red-500 mb-4 font-tech border-b border-red-500/30 pb-2">ALERTA TRAUMATOLÓGICA</h4>
+                        <ul class="text-left text-gray-300 space-y-3 text-sm">
+                            <li><strong class="text-white">Batería de Litio Inestable:</strong> Productos baratos importados sin controles reales. Casos documentados de explosiones en la boca.</li>
+                            <li><strong class="text-white">Saborizantes Tóxicos:</strong> Ingredientes como el diacetilo son seguros para comer, pero <span class="text-red-400">destruyen los tejidos pulmonares</span> al inhalarse calientes.</li>
+                            <li><strong class="text-white">Riego Sanguíneo:</strong> Corta la sangre a tus encías, debilitando la raíz de tus dientes hasta que se mueven.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FASE 2: LA PRUEBA FÍSICA (Microscopio) -->
+    <section class="max-w-6xl mx-auto px-4 py-16 border-t border-gray-800 border-dashed">
+        <div class="flex flex-col lg:flex-row gap-10 items-stretch">
+            <div class="w-full lg:w-1/2 flex flex-col justify-center">
+                <div class="inline-block bg-magenta-900/30 border border-magenta-500 text-pink-400 font-tech px-3 py-1 rounded-sm w-max mb-4">EXPEDIENTE #002: LA ESPONJA</div>
+                <h3 class="text-4xl font-neon text-white mb-4 uppercase">Bajo la Lente</h3>
+                <p class="text-xl text-gray-300 mb-6 leading-relaxed">Vamos a destripar un dispositivo usado y poner el líquido interior bajo un microscopio. Observa lo que entra en tu sistema respiratorio.</p>
+                <div class="bg-black border border-pink-500/30 shadow-[inset_4px_0_0_#ff00ff] p-6 rounded mb-8">
+                    <p class="text-lg text-gray-300">Si un veneno oliera a veneno, lo escupirías. Le ponen sabores de chuchería para <strong class="text-pink-400">apagar tu alarma de supervivencia cerebral</strong>.</p>
+                </div>
+                <button onclick="revealMicroscope()" id="btn-micro" class="bg-black neon-border-magenta text-pink-400 font-bold py-4 px-8 rounded hover:bg-pink-900 hover:text-white transition-all duration-300 uppercase tracking-widest text-lg font-tech self-start">
+                    > DESENCRIPTAR VÍDEO
+                </button>
+            </div>
+            
+            <div class="w-full lg:w-1/2 relative rounded-xl overflow-hidden neon-border-magenta bg-black shadow-[0_0_30px_rgba(255,0,255,0.15)]" style="min-height: 380px;">
+                <div id="mystery-box" class="absolute inset-0 flex flex-col items-center justify-center bg-[#050505] z-20 cursor-pointer transition-all duration-700 hover:bg-[#111]" onclick="revealMicroscope()">
+                    <span class="text-6xl mb-4 block drop-shadow-[0_0_10px_#ff00ff]">🔬</span>
+                    <span class="text-2xl font-tech text-pink-500 font-bold tracking-widest block mb-2">VÍDEO CLASIFICADO</span>
+                    <span class="text-gray-400 text-sm uppercase">Corte transversal y análisis de microscopio</span>
+                </div>
+                <!-- Video Mike (starts at 05:42 = 342s) -->
+                <iframe id="mike-video" class="absolute inset-0 w-full h-full opacity-0 pointer-events-none transition-opacity duration-1000 z-10" src="https://www.youtube.com/embed/vgi1FkPPCaA?start=342&enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 3: ESTADÍSTICAS Y DAÑOS CLÍNICOS -->
+    <section class="bg-[#0a0a0a] py-20 border-y border-cyan-900/50 relative">
+        <div class="max-w-6xl mx-auto px-4 relative z-10">
+            
+            <div class="text-center mb-16">
+                <div class="inline-block alert-box bg-red-950 border border-red-500 text-red-300 font-tech px-6 py-2 rounded-sm mb-6 tracking-widest font-bold text-xl shadow-[0_0_20px_#ff003c]">INFORME MÉDICO GLOBAL</div>
+                <h3 class="text-4xl md:text-5xl font-neon text-white mb-6">NO ES A LARGO PLAZO. ES <span class="text-red-500">AHORA.</span></h3>
+            </div>
+
+            <!-- Estadísticas Duras -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="bg-[#111] border border-cyan-500/30 p-8 rounded-xl text-center shadow-[0_4px_20px_rgba(0,255,255,0.05)] hover:-translate-y-2 transition-transform">
+                    <span class="text-5xl font-black neon-text-cyan block mb-4">48.4%</span>
+                    <p class="text-gray-300 font-tech text-lg">Jóvenes (14-18) que lo han probado en España. ¡El doble en solo 2 años! <span class="block text-sm text-cyan-600 mt-2">(Datos: ESTUDES)</span></p>
+                </div>
+                <div class="bg-[#111] border border-pink-500/30 p-8 rounded-xl text-center shadow-[0_4px_20px_rgba(255,0,255,0.05)] hover:-translate-y-2 transition-transform">
+                    <span class="text-5xl font-black neon-text-magenta block mb-4">8 de 10</span>
+                    <p class="text-gray-300 font-tech text-lg">Estudiantes que fuman derivados acaban consumiendo tabaco o cannabis.</p>
+                </div>
+                <div class="bg-[#111] border border-red-500/30 p-8 rounded-xl text-center shadow-[0_4px_20px_rgba(255,0,0,0.05)] hover:-translate-y-2 transition-transform">
+                    <span class="text-5xl font-black neon-text-red block mb-4">60</span>
+                    <p class="text-gray-300 font-tech text-lg">Muertes confirmadas y 2.700 hospitalizados en un solo brote de EVALI en EE.UU.</p>
+                </div>
+            </div>
+
+            <!-- Datos Clínicos: La Dra. Ventosa -->
+            <div class="flex flex-col lg:flex-row gap-12 items-center bg-black p-8 rounded-2xl border border-gray-800 shadow-2xl">
+                <div class="w-full lg:w-1/2">
+                    <div class="inline-block bg-cyan-900/30 border border-cyan-500 text-cyan-400 font-tech px-3 py-1 rounded-sm w-max mb-4">EXPEDIENTE #003: ODONTOLOGÍA</div>
+                    <h3 class="text-3xl font-neon text-white mb-6">TU BOCA TE DELATA</h3>
+                    <p class="text-lg text-gray-300 mb-6">El vaper huele a fruta, pero a quien vapea le huele el aliento a distancia. La Dra. Ventosa lo confirma.</p>
+                    
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex items-start bg-[#111] p-4 border-l-2 border-cyan-500 rounded">
+                            <span class="mr-3 text-xl">🏜️</span>
+                            <span><strong>Halitosis Crónica:</strong> El líquido seca la boca. Sin saliva, las bacterias de la putrefacción se multiplican descontroladamente.</span>
+                        </li>
+                        <li class="flex items-start bg-[#111] p-4 border-l-2 border-red-500 rounded">
+                            <span class="mr-3 text-xl">🩸</span>
+                            <span><strong>Encías Zombis:</strong> La nicotina estrangula las venas de las encías. Se inflaman pero no sangran porque están casi muertas. Se retiran y el diente se afloja.</span>
+                        </li>
+                        <li class="flex items-start bg-[#111] p-4 border-l-2 border-pink-500 rounded">
+                            <span class="mr-3 text-xl">🍄</span>
+                            <span><strong>Candidiasis:</strong> Los azúcares del líquido provocan la aparición de hongos en la lengua (capa blanca dolorosa) y caries fulminantes.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="w-full lg:w-1/2 flex justify-center">
+                    <!-- Video Short Ventosa starts at 00:00 -->
+                    <div class="w-full max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden neon-border-cyan shadow-[0_0_30px_rgba(0,255,255,0.2)] bg-black">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/5gC-wReUpas" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 4: EL HACKEO CEREBRAL -->
+    <section class="max-w-6xl mx-auto px-4 py-20">
+        <div class="flex flex-col lg:flex-row gap-12 items-center">
+            <!-- Video Perezoso starts at 11:17 (677s) -->
+            <div class="w-full lg:w-3/5">
+                <div class="inline-block bg-pink-900/30 border border-pink-500 text-pink-400 font-tech px-3 py-1 rounded-sm w-max mb-4">EXPEDIENTE #004: MANIPULACIÓN</div>
+                <h3 class="text-3xl font-neon text-white mb-6">EL HACKEO DE TU CEREBRO</h3>
+                <div class="aspect-video rounded-xl overflow-hidden neon-border-magenta shadow-[0_0_40px_rgba(255,0,255,0.15)] mb-6">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/c8vDOihfJr4?start=677" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="w-full lg:w-2/5">
+                <div class="bg-[#111] p-8 rounded-2xl border border-pink-500/50 shadow-[inset_0_0_20px_rgba(255,0,255,0.05)]">
+                    <h4 class="text-2xl font-black text-pink-500 mb-6 uppercase tracking-wider">La Estafa Perfecta</h4>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6">
+                        <strong>Te dicen que relaja. FALSO.</strong> El vaper te inyecta dosis altísimas de nicotina. A los 30 minutos, tu cerebro entra en síndrome de abstinencia y te crea ansiedad.
+                    </p>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-8">
+                        Cuando vuelves a dar una calada, sientes alivio. Pero te estás aliviando de <strong>la misma ansiedad que el aparato te acaba de provocar.</strong>
+                    </p>
+                    <div class="p-5 bg-black border border-red-500 rounded text-red-400 font-tech font-bold uppercase text-center shadow-[0_0_15px_rgba(255,0,0,0.2)]">
+                        > "Estás pagando una suscripción mensual para sentirte normal."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 5: LA RULETA DE LAS EXCUSAS -->
+    <section class="bg-black py-24 border-t-2 border-cyan-900 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <div class="inline-block bg-cyan-900/30 border border-cyan-500 text-cyan-400 font-tech px-4 py-2 rounded-sm w-max mb-4 shadow-[0_0_10px_#00ffff]">SIMULADOR DE DEBATE</div>
+                <h3 class="text-4xl md:text-5xl font-neon text-white mb-6">LA RULETA DE LAS EXCUSAS</h3>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto font-tech bg-gray-900 p-4 border border-gray-700 rounded">
+                    Un adicto siempre justifica su adicción creyendo que tiene el control. <strong class="text-white">Gira la ruleta, lee la frase en voz alta y debatid: ¿Cómo destrozaríais este argumento?</strong> Luego comprobad la cruda realidad.
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-16">
+                <!-- Ruleta -->
+                <div class="roulette-container">
+                    <div class="pointer"></div>
+                    <div id="wheel" class="wheel"></div>
+                </div>
+
+                <!-- Controles y Resultados -->
+                <div class="w-full lg:w-1/2 flex flex-col items-center justify-center">
+                    <button onclick="spinWheel()" id="spin-btn" class="bg-[#111] border-2 border-cyan-500 text-white font-black text-3xl py-5 px-12 rounded shadow-[0_0_30px_#00ffff] hover:bg-cyan-600 hover:text-black transition-all uppercase tracking-widest mb-10 font-tech">
+                        > GIRAR RULETA
+                    </button>
+
+                    <!-- Caja de la Excusa -->
+                    <div id="excusa-box" class="hidden w-full bg-[#050505] p-8 rounded-xl border border-cyan-500/80 shadow-[0_0_20px_rgba(0,255,255,0.2)] text-center relative">
+                        <span class="absolute -top-4 left-6 bg-cyan-600 px-3 py-1 text-sm text-black font-bold font-tech rounded">EXCUSA DETECTADA</span>
+                        <p id="excusa-text" class="text-2xl font-bold italic mb-8 text-gray-200 leading-relaxed mt-4">"..."</p>
+                        
+                        <!-- Botón para ver el Zasca -->
+                        <button onclick="showZasca()" class="w-full bg-lime-900/30 border-2 border-lime-400 text-lime-400 font-bold text-xl py-4 px-8 rounded hover:bg-lime-400 hover:text-black hover:shadow-[0_0_20px_#39ff14] transition-all uppercase tracking-widest font-tech">
+                            [ DESENCRIPTAR VERDAD ]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-20 bg-[#050505] border-t border-gray-800">
+        <h2 class="text-3xl md:text-4xl font-neon text-white uppercase tracking-widest mb-6">NO SEAS EL MUÑECO DE NADIE</h2>
+        <p class="text-gray-400 max-w-3xl mx-auto text-xl leading-relaxed">
+            La industria vio que el tabaco ya no "molaba" y perdían clientes. Se inventaron un USB de colores con sabor a golosinas para que tú seas su nuevo cajero automático.<br><br>
+            <span class="text-lime-400 font-bold border-b border-lime-400 pb-1">La verdadera rebeldía hoy no es echar humo, es ser más inteligente que su equipo de marketing.</span>
+        </p>
+    </footer>
+
+    <!-- ZASCA Modal (Tailwind Native Classes) -->
+    <div id="zasca-modal" class="hidden opacity-0 transition-opacity duration-300 fixed inset-0 bg-black/95 z-[100] items-center justify-center p-4 sm:p-8 backdrop-blur-md">
+        <div class="bg-[#0a0a0a] border-2 border-lime-400 p-8 sm:p-12 rounded-xl max-w-4xl w-full text-center shadow-[0_0_60px_rgba(57,255,20,0.25)] relative transform transition-transform duration-300 scale-95" id="zasca-content-box">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-500 hover:text-white text-5xl transition-colors">&times;</button>
+            
+            <div class="text-7xl mb-6 drop-shadow-[0_0_15px_rgba(57,255,20,0.5)]">🎯</div>
+            <h4 class="text-3xl font-tech text-lime-400 uppercase mb-8 tracking-widest">> REALIDAD_CONFIRMADA</h4>
+            
+            <p id="zasca-text" class="text-2xl sm:text-3xl text-white font-bold leading-relaxed"></p>
+            
+            <div class="mt-10">
+                <button onclick="closeModal()" class="bg-lime-400 text-black font-tech font-bold text-xl py-3 px-8 rounded hover:bg-lime-300 transition-colors uppercase tracking-wider">
+                    CERRAR ARCHIVO
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // === HACK SEQUENCE LOGIC ===
+        function triggerHack(btn) {
+            btn.innerText = "PROCESANDO...";
+            btn.classList.remove('bg-fuchsia-600', 'hover:bg-fuchsia-700');
+            btn.classList.add('bg-yellow-500', 'text-black', 'cursor-wait');
+            
+            setTimeout(() => {
+                btn.innerText = "¡ALERTA TÓXICA!";
+                btn.classList.remove('bg-yellow-500', 'text-black');
+                btn.classList.add('bg-red-600', 'text-white', 'animate-pulse');
+                
+                setTimeout(() => {
+                    const fakeShop = document.getElementById('fake-shop');
+                    const glitchScreen = document.getElementById('glitch-screen');
+                    
+                    fakeShop.classList.add('opacity-0');
+                    setTimeout(() => { fakeShop.style.display = 'none'; }, 500);
+                    
+                    glitchScreen.classList.remove('hidden');
+                    glitchScreen.classList.add('flex');
+                    
+                    const terminal = document.getElementById('hack-terminal');
+                    const texts = [
+                        "> INTERCEPTANDO CONEXIÓN DEL USUARIO...",
+                        "> ANALIZANDO COMPONENTES DEL LÍQUIDO...",
+                        "> <span class='text-red-500'>ADVERTENCIA: PROPILENGLICOL DETECTADO.</span>",
+                        "> <span class='text-red-500'>ADVERTENCIA: METALES PESADOS (PLOMO, NÍQUEL) DETECTADOS.</span>",
+                        "> DESTRUYENDO FACHADA DE MARKETING...",
+                        "> DESENCRIPTANDO LA VERDAD..."
+                    ];
+                    
+                    let i = 0;
+                    let interval = setInterval(() => {
+                        if(i < texts.length) {
+                            terminal.innerHTML += `<p class="animate-pulse">${texts[i]}</p>`;
+                            i++;
+                        } else {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                glitchScreen.classList.add('hidden');
+                                glitchScreen.classList.remove('flex');
+                                document.getElementById('real-dashboard').classList.remove('hidden');
+                            }, 1500);
+                        }
+                    }, 600);
+
+                }, 800);
+            }, 800);
+        }
+
+        // === MICROSCOPE LOGIC ===
+        function revealMicroscope() {
+            const box = document.getElementById('mystery-box');
+            const video = document.getElementById('mike-video');
+            box.style.opacity = '0';
+            setTimeout(() => {
+                box.style.display = 'none';
+                video.style.opacity = '1';
+                video.style.pointerEvents = 'auto'; 
+            }, 700);
+        }
+
+        // === ROULETTE LOGIC ===
+        const wheel = document.getElementById('wheel');
+        const spinBtn = document.getElementById('spin-btn');
+        const excusaBox = document.getElementById('excusa-box');
+        const excusaText = document.getElementById('excusa-text');
+        const zascaText = document.getElementById('zasca-text');
+        const modal = document.getElementById('zasca-modal');
+        const modalBox = document.getElementById('zasca-content-box');
+
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        const data = [
+            {
+                icon: "🎉", color: "#00ffff",
+                excusa: "Yo controlo, lo puedo dejar cuando quiera, solo vapeo en las fiestas.",
+                zasca: "<span class='text-cyan-400'>FALSO.</span> La nicotina de los vapers está hiperconcentrada en forma de sales para hackear tus receptores de dopamina en días sin rasparte la garganta. No controlas tú, controla la química. Si de verdad controlas, intenta ir a 3 fiestas seguidas sin tocarlo."
+            },
+            {
+                icon: "💧", color: "#ff00ff",
+                excusa: "Es muchísimo mejor que el tabaco tradicional porque es solo vapor de agua.",
+                zasca: "<span class='text-pink-500'>MENTIRA BIOLÓGICA.</span> Tu vaper no es una tetera. Es propilenglicol, glicerina y metales pesados (plomo, cromo) que se desprenden de la resistencia incandescente. Estás inhalando química industrial directamente a tus pulmones."
+            },
+            {
+                icon: "🍉", color: "#39ff14",
+                excusa: "Si lo venden en las tiendas y sabe a frutas o gominolas, no puede ser tan tóxico.",
+                zasca: "<span class='text-lime-400'>CABALLO DE TROYA.</span> Si oliera al disolvente que lleva, tu instinto biológico te haría escupirlo. Le ponen sabor a chuchería para apagar tu alarma cerebral y colarte la adicción sin que tu cuerpo se defienda."
+            },
+            {
+                icon: "🧘", color: "#ff003c",
+                excusa: "A mí me relaja, me quita la ansiedad de los exámenes y de clase.",
+                zasca: "<span class='text-red-500'>ESTAFA CONFIRMADA.</span> El vaper TE CREA la ansiedad (síndrome de abstinencia) a los 30 minutos de usarlo. Al dar una calada, te alivia ESA misma ansiedad que él te provocó. Estás pagando por estar estresado."
+            },
+            {
+                icon: "💨", color: "#ffff00",
+                excusa: "La cachimba/shisha es sana porque el agua filtra todo lo malo del humo.",
+                zasca: "<span class='text-yellow-400'>MITO DESMONTADO.</span> El agua NO filtra las toxinas, solo enfría el humo para que te tragues más cantidad. Además, la manguera húmeda compartida en el local es una autopista para pasarte virus, herpes y bacterias con tus amigos."
+            }
+        ];
+
+        let availableExcuses = [...data];
+        let currentItem = null;
+        let currentItemIndex = null;
+
+        function drawWheel() {
+            wheel.innerHTML = '';
+            const numSegments = availableExcuses.length;
+
+            if (numSegments === 0) {
+                wheel.innerHTML = '<div class="absolute inset-0 flex items-center justify-center p-4 text-center"><span class="text-3xl font-tech text-lime-400 font-bold">TODAS_LAS_EXCUSAS<br>DESMONTADAS<br>[100%]</span></div>';
+                return;
+            }
+
+            let svg = '<svg viewBox="-100 -100 200 200" style="width:100%; height:100%; transform: rotate(-90deg);">';
+            
+            if (numSegments === 1) {
+                svg += `<circle cx="0" cy="0" r="100" fill="${availableExcuses[0].color}" stroke="#111" stroke-width="2" />`;
+                svg += `<text x="0" y="0" fill="#000" font-size="50" text-anchor="middle" dominant-baseline="middle" transform="rotate(90, 0, 0)">${availableExcuses[0].icon}</text>`;
+            } else {
+                const angle = 360 / numSegments;
+                for (let i = 0; i < numSegments; i++) {
+                    const startAngle = i * angle;
+                    const endAngle = (i + 1) * angle;
+
+                    const startRad = (startAngle * Math.PI) / 180;
+                    const endRad = (endAngle * Math.PI) / 180;
+                    
+                    const x1 = 100 * Math.cos(startRad);
+                    const y1 = 100 * Math.sin(startRad);
+                    const x2 = 100 * Math.cos(endRad);
+                    const y2 = 100 * Math.sin(endRad);
+
+                    const largeArcFlag = angle > 180 ? 1 : 0;
+                    const d = `M 0 0 L ${x1} ${y1} A 100 100 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
+                    
+                    const textAngle = startAngle + angle / 2;
+                    const textRad = (textAngle * Math.PI) / 180;
+                    const textX = 65 * Math.cos(textRad);
+                    const textY = 65 * Math.sin(textRad);
+                    
+                    svg += `<path d="${d}" fill="${availableExcuses[i].color}" stroke="#111" stroke-width="4" opacity="0.9" />`;
+                    svg += `<text x="${textX}" y="${textY}" fill="#000" font-size="30" text-anchor="middle" dominant-baseline="middle" transform="rotate(${textAngle + 90}, ${textX}, ${textY})">${availableExcuses[i].icon}</text>`;
+                }
+            }
+            svg += '</svg>';
+            wheel.innerHTML = svg;
+        }
+
+        drawWheel();
+
+        function spinWheel() {
+            if (isSpinning || availableExcuses.length === 0) return;
+            isSpinning = true;
+            excusaBox.classList.add('hidden');
+            
+            const spins = Math.floor(Math.random() * 5) + 5;
+            const randomDegree = Math.floor(Math.random() * 360);
+            currentRotation += (spins * 360) + randomDegree;
+            
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+            
+            setTimeout(() => {
+                const finalMod = currentRotation % 360;
+                const numSegments = availableExcuses.length;
+                const anglePerSegment = 360 / numSegments;
+                
+                const pointerAngle = (360 - finalMod) % 360;
+                const segmentIndex = Math.floor(pointerAngle / anglePerSegment);
+                
+                currentItem = availableExcuses[segmentIndex];
+                currentItemIndex = segmentIndex;
+                
+                excusaText.innerText = `"${currentItem.excusa}"`;
+                excusaBox.classList.remove('hidden');
+                isSpinning = false;
+            }, 4000);
+        }
+
+        function showZasca() {
+            if (!currentItem) return;
+            
+            zascaText.innerHTML = currentItem.zasca;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            void modal.offsetWidth;
+            
+            modal.classList.remove('opacity-0');
+            modal.classList.add('opacity-100');
+            
+            modalBox.classList.remove('scale-95');
+            modalBox.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            
+            modalBox.classList.remove('scale-100');
+            modalBox.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                
+                if (currentItemIndex !== null) {
+                    availableExcuses.splice(currentItemIndex, 1);
+                    currentItemIndex = null;
+                    currentItem = null;
+                    excusaBox.classList.add('hidden');
+                    drawWheel();
+                    
+                    if (availableExcuses.length === 0) {
+                        spinBtn.innerText = "> SISTEMA_COMPLETADO";
+                        spinBtn.classList.add('opacity-50', 'cursor-not-allowed', 'border-gray-600', 'text-gray-400');
+                        spinBtn.classList.remove('border-cyan-500', 'hover:bg-cyan-600', 'text-white');
+                        spinBtn.onclick = null;
+                    }
+                }
+            }, 300);
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
